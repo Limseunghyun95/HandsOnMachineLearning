@@ -1,1 +1,36 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import sklearn.linear_model
 
+
+# 데이터 불러오기
+avocado_data = pd.read_csv("C:/Users/LIMSEUNGHYUN/Desktop/HandsOnMachineLearning/datasets/avocado.csv")
+print(type(avocado_data)) # 타입 확인 / 당연히 Dataframe
+print(len(avocado_data)) # 행의 갯수
+print(avocado_data.shape) # (행, 열)의 갯수 / 열은 인덱스번호까지 포함
+
+# 종속변수와 독립변수 선택
+# 독립변수는 종속변수에 영향을 미치는 변수
+# 종속변수는 독립변수에 의해 영향을 받는 변수
+# 예를들어, 고기의 그램수가 많이 나갈수록 가격은 높아진다. 라는 문장이 있으면 고기의 그램수에 따라 가격이 결정이 되는 것이므로 고기의 그램수는 독립변수이고 가격은 종속변수이다.
+# 독립변수를 X, 종속변수를 Y라 하자
+# 종속변수를 아보카도의 병균 가격(AveragePrice), 독립변수를 총 크기(Total Volume)를 선택
+y = np.array(avocado_data["AveragePrice"]).reshape(-1, 1)
+X = np.array(avocado_data["Total Volume"]).reshape(-1, 1)
+
+
+# 데이터 시각화
+plt.scatter(X, y)
+plt.xlabel("Avocado AveragePrice")
+plt.ylabel("Avocado Total Volume")
+plt.show()
+
+# 선형회귀 모델 선택
+model = sklearn.linear_model.LinearRegression()
+
+# 모델 훈련
+model.fit(X, y)
+
+test_x = [[75133]]
+print(model.predict(test_x))
